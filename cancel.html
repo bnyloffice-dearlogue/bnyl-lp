@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>予約キャンセル - BNYL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans JP',sans-serif;background:#f8f8f8;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .card{background:#fff;border-radius:12px;padding:36px 28px;max-width:480px;width:100%;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,0.1)}
+    .spinner{width:36px;height:36px;border:3px solid #eee;border-top-color:#c0526a;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .icon{font-size:2.5rem;margin-bottom:16px}
+    .icon-ok{color:#4caf7d}
+    h2{font-size:1.2rem;margin-bottom:16px;color:#111;line-height:1.5}
+    p{color:#666;font-size:0.9rem;line-height:1.8}
+    .detail{text-align:left;background:#f8f8f8;border-radius:8px;padding:16px 18px;margin:18px 0;font-size:0.88rem}
+    .detail dt{font-weight:700;color:#999;font-size:0.72rem;margin-bottom:2px}
+    .detail dd{color:#111;margin-bottom:12px;line-height:1.5}
+    .detail dd:last-child{margin-bottom:0}
+    .btn{display:block;width:100%;min-height:52px;margin-top:12px;padding:14px 24px;border-radius:8px;text-decoration:none;font-size:0.95rem;font-weight:700;border:none;cursor:pointer;font-family:inherit;line-height:1.4}
+    .btn-cancel{background:#c0526a;color:#fff}
+    .btn-cancel:hover{background:#a84460}
+    .btn-back{background:#fff;color:#666;border:1.5px solid #ddd}
+    .btn-back:hover{background:#f5f5f5}
+    .btn-home{background:#111;color:#fff}
+    .btn-home:hover{background:#333}
+    .btn-row{display:flex;flex-direction:column;gap:0;margin-top:20px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <!-- 読み込み中 -->
+    <div id="loading">
+      <div class="spinner"></div>
+      <p>予約内容を読み込み中...</p>
+    </div>
+
+    <!-- ステップ1：確認画面 -->
+    <div id="confirm" style="display:none">
+      <div class="icon">📋</div>
+      <h2>以下の予約をキャンセルしますか？</h2>
+      <dl class="detail" id="confirmDetail"></dl>
+      <div class="btn-row">
+        <button class="btn btn-cancel" id="doCancelBtn">キャンセルする</button>
+        <button class="btn btn-back" id="backBtn">戻る</button>
+      </div>
+    </div>
+
+    <!-- 処理中 -->
+    <div id="processing" style="display:none">
+      <div class="spinner"></div>
+      <p>キャンセル処理中...</p>
+    </div>
+
+    <!-- ステップ2：完了画面 -->
+    <div id="result" style="display:none">
+      <div class="icon" id="resultIcon"></div>
+      <h2 id="resultTitle"></h2>
+      <p id="resultMsg"></p>
+      <a href="/" class="btn btn-home" style="margin-top:24px">トップページへ戻る</a>
+    </div>
+  </div>
+
+  <script src="js/main.js" defer></script>
+  <script>
+    window.addEventListener('load', () => {
+      const token = new URLSearchParams(location.search).get('token');
+      const endpoint = (typeof GAS_ENDPOINT !== 'undefined') ? GAS_ENDPOINT : '';
+
+      if (!token) {
+        showResult('⚠️', 'リンクが無効です', 'キャンセルリンクの形式が正しくありません。\nbnyl@dear-logue.com へご連絡ください。');
+        return;
+      }
+      if (!endpoint || endpoint === 'YOUR_GAS_ENDPOINT_URL') {
+        showResult('⚠️', 'システムエラー', '設定が不完全です。運営にお問い合わせください。');
+        return;
+      }
+
+      // ステップ1：予約内容を取得して確認画面を表示
+      fetch(`${endpoint}?action=getReservation&token=${encodeURIComponent(token)}`)
+        .then(async res => { const t = await res.text(); try { return JSON.parse(t); } catch { return { status:'error' }; } })
+        .then(data => {
+          hide('loading');
+          if (data.status !== 'ok') {
+            showResult('⚠️', 'キャンセルできません', data.message || 'この予約はすでに処理済みか、見つかりませんでした。');
+            return;
+          }
+          document.getElementById('confirmDetail').innerHTML =
+            `<dt>受付番号</dt><dd>${data.receiptNo || '-'}</dd>` +
+            `<dt>予約内容</dt><dd>${data.typeLabel || '-'}</dd>` +
+            `<dt>日程・時間帯</dt><dd>${data.scheduleLabel || '-'}</dd>` +
+            `<dt>お名前（会員番号）</dt><dd>${data.memberNo || '-'}</dd>`;
+          show('confirm');
+        })
+        .catch(() => {
+          hide('loading');
+          showResult('❌', '通信エラー', '読み込みに失敗しました。時間をおいて再度お試しください。');
+        });
+
+      // 戻る
+      document.getElementById('backBtn').addEventListener('click', () => { location.href = '/'; });
+
+      // ステップ2：キャンセル実行
+      document.getElementById('doCancelBtn').addEventListener('click', () => {
+        hide('confirm');
+        show('processing');
+        fetch(`${endpoint}?action=cancel&token=${encodeURIComponent(token)}`)
+          .then(async res => { const t = await res.text(); try { return JSON.parse(t); } catch { return { status: res.ok ? 'ok' : 'error' }; } })
+          .then(data => {
+            hide('processing');
+            if (data.status === 'ok') {
+              showResult('✅', 'キャンセルが完了しました', data.message || 'またのご来館をお待ちしています。');
+              document.getElementById('resultIcon').classList.add('icon-ok');
+            } else {
+              showResult('⚠️', 'キャンセルできませんでした', data.message || 'このリンクは無効か、すでに処理済みです。');
+            }
+          })
+          .catch(() => {
+            hide('processing');
+            showResult('❌', '通信エラー', '処理に失敗しました。時間をおいて再度お試しください。');
+          });
+      });
+    });
+
+    function show(id){ document.getElementById(id).style.display = 'block'; }
+    function hide(id){ document.getElementById(id).style.display = 'none'; }
+    function showResult(icon, title, msg) {
+      ['loading','confirm','processing'].forEach(hide);
+      document.getElementById('resultIcon').textContent = icon;
+      document.getElementById('resultTitle').textContent = title;
+      document.getElementById('resultMsg').textContent = msg;
+      show('result');
+    }
+  </script>
+</body>
+</html>

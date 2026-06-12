@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BNYL（Bunkyo Night Youth Lounge）- 文京区在住の19〜39歳のための夜間居場所。毎週金曜18:00〜22:00開館。">
+  <title>BNYL｜Bunkyo Night Youth Lounge</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+<body>
+
+  <!-- ナビゲーションバー -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">
+        <img src="images/logo.png" alt="BNYL" class="nav-logo-img">
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#concept">コンセプト</a></li>
+        <li><a href="#space">スペース</a></li>
+        <li><a href="#calendar">開館日</a></li>
+        <li><a href="#events">イベント</a></li>
+        <li><a href="#staff">専門職</a></li>
+        <li><a href="#reserve" class="nav-cta">予約する</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ヒーロー -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <img src="images/gaikan.jpg" alt="BNYL外観" class="hero-img">
+      <div class="hero-overlay"></div>
+    </div>
+    <!-- 上部：看板より上に表示 -->
+    <div class="hero-content">
+      <p class="hero-eyebrow">文京区在住19〜39歳のための居場所事業</p>
+      <img src="images/logo.png" alt="BNYL" class="hero-logo-img">
+    </div>
+    <!-- 下部：看板より下に配置 -->
+    <div class="hero-desc-wrap">
+      <p class="hero-desc">仕事帰りに、ひとりでも、誰かとでも。<br>金曜の夜、千駄木に灯る居場所へ。</p>
+    </div>
+    <a href="#concept" class="hero-scroll" aria-label="下へスクロール">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 9l6 6 6-6"/>
+      </svg>
+      <span class="hero-scroll-label">scroll</span>
+    </a>
+  </section>
+
+  <!-- コンセプト -->
+  <section class="section" id="concept">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">CONCEPT</p>
+        <h2 class="section-title">あなたらしく過ごせる場所</h2>
+        <p class="section-desc">BNYLは、文京区が運営支援する若者向けの夜間フリースペースです。<br>何かをしなくていい。ただ、いてもいい。</p>
+      </div>
+      <div class="scene-grid">
+        <div class="scene-card">
+          <div class="scene-img-wrap">
+            <img src="images/scene_reading.png" alt="読書・勉強" class="scene-img" onerror="this.parentElement.classList.add('scene-img-placeholder')">
+          </div>
+          <div class="scene-body">
+            <h3 class="scene-title"><i class="ti ti-book scene-icon"></i>読書・勉強</h3>
+            <p class="scene-desc">窓の外の夜景を眺めながら、静かに本を読んだり勉強したり。集中できる席があります。</p>
+          </div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-img-wrap">
+            <img src="images/scene_pc.png" alt="仕事・作業" class="scene-img" onerror="this.parentElement.classList.add('scene-img-placeholder')">
+          </div>
+          <div class="scene-body">
+            <h3 class="scene-title"><i class="ti ti-device-laptop scene-icon"></i>仕事・作業</h3>
+            <p class="scene-desc">仕事帰りにそのまま寄って、続きをやっていく。Wi-Fi・電源完備。</p>
+          </div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-img-wrap">
+            <img src="images/scene_consult.png" alt="専門職に相談" class="scene-img" onerror="this.parentElement.classList.add('scene-img-placeholder')">
+          </div>
+          <div class="scene-body">
+            <h3 class="scene-title"><i class="ti ti-users scene-icon"></i>専門職に相談</h3>
+            <p class="scene-desc">2階の和室で、キャリアや生活のことをゆっくり話せます。予約制・30分。</p>
+          </div>
+        </div>
+        <div class="scene-card">
+          <div class="scene-img-wrap">
+            <img src="images/scene_event.png" alt="交流・イベント" class="scene-img" onerror="this.parentElement.classList.add('scene-img-placeholder')">
+          </div>
+          <div class="scene-body">
+            <h3 class="scene-title"><i class="ti ti-coffee scene-icon"></i>交流・イベント</h3>
+            <p class="scene-desc">月1回の講座や交流イベント。来るだけでもOK、途中退席も自由です。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- スペース紹介 -->
+  <section class="section section-dark" id="space">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">SPACE</p>
+        <h2 class="section-title">千駄木 露地のフロア</h2>
+        <p class="section-desc">文京区千駄木2-42-2「千駄木 露地」内にある3つのフロアを開放します。</p>
+      </div>
+      <div class="space-grid">
+        <div class="space-card">
+          <div class="space-img-wrap">
+            <img src="images/floor1.jpg" alt="フロア1" class="space-img" onerror="this.parentElement.classList.add('img-placeholder')">
+          </div>
+          <div class="space-body">
+            <span class="space-badge">フロア①</span>
+            <h3>ラウンジスペース</h3>
+            <p>ソファや椅子でゆったり過ごせるオープンエリア。会話もOK、ひとり時間もOK。</p>
+          </div>
+        </div>
+        <div class="space-card">
+          <div class="space-img-wrap">
+            <img src="images/floor2.jpg" alt="フロア2" class="space-img" onerror="this.parentElement.classList.add('img-placeholder')">
+          </div>
+          <div class="space-body">
+            <span class="space-badge">フロア②</span>
+            <h3>ワーク・スタディエリア</h3>
+            <p>デスクと椅子を配置した集中エリア。Wi-Fi・電源完備で作業に最適。</p>
+          </div>
+        </div>
+        <div class="space-card">
+          <div class="space-img-wrap">
+            <img src="images/floor3.jpg" alt="フロア3" class="space-img" onerror="this.parentElement.classList.add('img-placeholder')">
+          </div>
+          <div class="space-body">
+            <span class="space-badge">フロア③</span>
+            <h3>相談・イベントルーム</h3>
+            <p>個別相談や少人数イベントに使用。プライバシーに配慮した半個室空間。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 開館カレンダー -->
+  <section class="section" id="calendar">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">CALENDAR</p>
+        <h2 class="section-title">開館カレンダー</h2>
+        <p class="section-desc">毎週金曜日 18:00〜22:00 開館。<span class="accent">ピンク</span>の日が開館日です。</p>
+      </div>
+      <div class="calendar-wrap">
+        <div class="calendar-nav">
+          <button class="cal-btn" id="calPrev" aria-label="前の月">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <span class="cal-month-label" id="calMonthLabel"></span>
+          <button class="cal-btn" id="calNext" aria-label="次の月">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+        <div class="calendar-grid" id="calendarGrid">
+          <div class="cal-day-header">日</div>
+          <div class="cal-day-header">月</div>
+          <div class="cal-day-header">火</div>
+          <div class="cal-day-header">水</div>
+          <div class="cal-day-header">木</div>
+          <div class="cal-day-header cal-fri">金</div>
+          <div class="cal-day-header">土</div>
+        </div>
+        <div class="calendar-legend">
+          <span class="legend-open">● 開館日（金曜）</span>
+          <span class="legend-today">○ 今日</span>
+        </div>
+        <p class="calendar-note">💼💚のマークがある日は専門職スタッフがいます。当日の相談も受け付けています。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- イベント・講座一覧 -->
+  <section class="section section-dark" id="events">
+    <div class="container">
+      <div class="section-header">
+        <img src="images/scene_event.png" alt="イベントの様子" class="section-img-banner" onerror="this.style.display='none'">
+        <p class="section-label">EVENTS</p>
+        <h2 class="section-title">イベント・講座</h2>
+        <p class="section-desc">参加無料。事前予約制。定員に達し次第締め切ります。</p>
+      </div>
+      <div class="events-tabs" id="eventsTabs">
+        <button class="events-tab active" data-cat="all">すべて</button>
+        <button class="events-tab" data-cat="event">交流イベント</button>
+        <button class="events-tab" data-cat="youth_lecture">若者支援講座</button>
+      </div>
+      <div class="events-list" id="eventsList">
+        <div class="events-loading" id="eventsLoading">
+          <div class="spinner"></div>
+          <p>読み込み中...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 専門職紹介 -->
+  <section class="section" id="staff">
+    <div class="container">
+      <div class="section-header">
+        <img src="images/scene_consult.png" alt="相談の様子" class="section-img-banner" onerror="this.style.display='none'">
+        <p class="section-label">STAFF</p>
+        <h2 class="section-title">専門職スタッフ</h2>
+        <p class="section-desc">キャリアや心の相談を、資格を持つ専門家が無料でサポートします。</p>
+      </div>
+      <div class="staff-grid">
+        <div class="staff-card">
+          <div class="staff-icon">👔</div>
+          <div class="staff-body">
+            <span class="staff-badge">キャリアコンサルタント</span>
+            <h3>仕事・働き方の相談</h3>
+            <p>仕事のこと、将来のこと、ひとりで抱えていませんか？転職・就活・副業・働き方など、どんな小さな悩みでも一緒に整理します。話すだけでも、すっきりすることがありますよ。（予約制・30分）</p>
+            <ul class="staff-list">
+              <li>キャリア支援講座（月1〜2回）</li>
+              <li>キャリア個別相談（毎週金曜・予約制）</li>
+            </ul>
+            <button type="button" class="btn btn-staff" data-type="career_consult">キャリア相談を予約する</button>
+          </div>
+        </div>
+        <div class="staff-card">
+          <div class="staff-icon">💚</div>
+          <div class="staff-body">
+            <span class="staff-badge staff-badge-green">社会福祉士</span>
+            <h3>こころ・生活の相談</h3>
+            <p>なんとなくしんどい、誰かに話を聞いてほしい。そんなときに気軽に声をかけてください。生活のこと、人間関係のこと、答えを出さなくてもいいので、まずは話しましょう。（予約制・30分）</p>
+            <ul class="staff-list">
+              <li>メンタルヘルス支援講座（月1〜2回）</li>
+              <li>メンタルヘルス個別相談（毎週金曜・予約制）</li>
+            </ul>
+            <button type="button" class="btn btn-staff btn-staff-green" data-type="mental_consult">メンタルヘルス相談を予約する</button>
+          </div>
+        </div>
+      </div>
+      <p class="staff-note">※個別相談は30分枠。各専門職1名体制。18:00〜21:00の5枠から選択。</p>
+    </div>
+  </section>
+
+  <!-- 予約フォーム -->
+  <section class="section" id="reserve">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">RESERVE</p>
+        <h2 class="section-title">予約フォーム</h2>
+        <p class="section-desc">参加は無料です。メールアドレスは確認メール送付にのみ使用します。</p>
+      </div>
+      <div class="form-wrap">
+        <form id="reserveForm" novalidate>
+          <!-- エラー・通知バナー -->
+          <div class="form-banner" id="formBanner" role="alert" style="display:none">
+            <span class="form-banner-text" id="formBannerText"></span>
+            <button type="button" class="form-banner-close" id="formBannerClose" aria-label="閉じる">×</button>
+          </div>
+
+          <!-- 会員番号 -->
+          <div class="form-group">
+            <label class="form-label" for="fmember">
+              会員番号 <span class="form-required">必須</span>
+            </label>
+            <input type="text" id="fmember" name="memberNo" class="form-input" placeholder="例：BN-0001" required>
+            <p class="form-error" id="memberError"></p>
+          </div>
+
+          <!-- メールアドレス -->
+          <div class="form-group">
+            <label class="form-label" for="femail">
+              メールアドレス <span class="form-required">必須</span>
+            </label>
+            <input type="email" id="femail" name="email" class="form-input" placeholder="example@email.com" required>
+            <p class="form-error" id="emailError"></p>
+          </div>
+
+          <!-- 予約内容 -->
+          <div class="form-group">
+            <label class="form-label" for="ftype">
+              予約内容 <span class="form-required">必須</span>
+            </label>
+            <select id="ftype" name="reserveType" class="form-select" required>
+              <option value="">選択してください</option>
+              <option value="event">交流イベント</option>
+              <option value="youth_lecture">若者支援講座</option>
+              <option value="career_consult">キャリア個別相談</option>
+              <option value="mental_consult">メンタルヘルス個別相談</option>
+            </select>
+            <p class="form-error" id="typeError"></p>
+          </div>
+
+          <!-- 日程・内容（イベント・講座用） -->
+          <div class="form-group" id="scheduleGroup" style="display:none">
+            <label class="form-label" id="scheduleLabel" for="fschedule">
+              参加希望イベント <span class="form-required">必須</span>
+            </label>
+            <select id="fschedule" name="schedule" class="form-select">
+              <option value="">選択してください</option>
+            </select>
+            <p class="form-error" id="scheduleError"></p>
+          </div>
+
+          <!-- 日程ロック表示（イベントカードから予約した場合） -->
+          <div class="form-group" id="lockedScheduleGroup" style="display:none">
+            <label class="form-label">参加するイベント</label>
+            <div class="locked-schedule" id="lockedScheduleBox">
+              <span class="locked-schedule-text" id="lockedScheduleText"></span>
+              <button type="button" class="locked-schedule-clear" id="lockedScheduleClear" aria-label="選び直す">選び直す</button>
+            </div>
+          </div>
+
+          <!-- 相談：希望日程（2段階①） -->
+          <div class="form-group" id="consultDateGroup" style="display:none">
+            <label class="form-label" for="fconsultDate">
+              希望日程 <span class="form-required">必須</span>
+            </label>
+            <select id="fconsultDate" class="form-select">
+              <option value="">選択してください</option>
+            </select>
+            <p class="form-error" id="consultDateError"></p>
+          </div>
+
+          <!-- 相談：希望時間帯（2段階②） -->
+          <div class="form-group" id="consultTimeGroup" style="display:none">
+            <label class="form-label" for="fconsultTime">
+              希望時間帯 <span class="form-required">必須</span>
+            </label>
+            <select id="fconsultTime" class="form-select">
+              <option value="">選択してください</option>
+              <option value="1800">18:00〜（30分枠）</option>
+              <option value="1845">18:45〜（30分枠）</option>
+              <option value="1930">19:30〜（30分枠）</option>
+              <option value="2015">20:15〜（30分枠）</option>
+              <option value="2100">21:00〜（30分枠）</option>
+            </select>
+            <p class="form-error" id="consultTimeError"></p>
+          </div>
+
+          <!-- 満席バナー -->
+          <div class="form-full-banner" id="fullBanner" style="display:none">
+            <p>この日程は満席です。</p>
+            <button type="button" class="btn btn-outline" id="waitlistBtn">キャンセル待ちに登録する</button>
+          </div>
+
+          <!-- キャンセル待ちフォーム（切り替え） -->
+          <div id="waitlistSection" style="display:none">
+            <div class="waitlist-banner">
+              <p>📋 キャンセル待ち登録フォーム</p>
+            </div>
+          </div>
+
+          <!-- 送信ボタン -->
+          <div class="form-group" id="submitGroup">
+            <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+              <span class="btn-text">予約を確定する</span>
+              <span class="btn-loading" style="display:none">
+                <svg class="spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                </svg>
+                送信中...
+              </span>
+            </button>
+          </div>
+
+          <!-- 完了メッセージ -->
+          <div class="form-success" id="formSuccess" style="display:none">
+            <div class="success-icon">✓</div>
+            <h3>予約を受け付けました</h3>
+            <p id="successMsg">ご登録のメールアドレスに確認メールをお送りしました。</p>
+            <p class="success-note">メールが届かない場合は迷惑メールフォルダをご確認ください。</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- アクセス -->
+  <section class="section section-dark" id="access">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">ACCESS</p>
+        <h2 class="section-title">アクセス</h2>
+      </div>
+      <div class="access-wrap">
+        <div class="access-map">
+          <iframe
+            src="https://maps.google.com/maps?q=%E5%8D%83%E9%A7%84%E6%9C%A8%E9%9C%B2%E5%9C%B0&z=18&output=embed"
+            width="100%" height="300" style="border:0; border-radius:10px;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="BNYLアクセスマップ">
+          </iframe>
+        </div>
+        <div class="access-info">
+          <div class="access-item">
+            <span class="access-icon">📍</span>
+            <div>
+              <p class="access-label">住所</p>
+              <p>東京都文京区千駄木2-42-2<br>「千駄木 露地」内</p>
+            </div>
+          </div>
+          <div class="access-item">
+            <span class="access-icon">🚇</span>
+            <div>
+              <p class="access-label">最寄り駅</p>
+              <p>東京メトロ千代田線<br>「千駄木駅」徒歩約5分</p>
+            </div>
+          </div>
+          <div class="access-item">
+            <span class="access-icon">🕕</span>
+            <div>
+              <p class="access-label">開館時間</p>
+              <p>毎週金曜 18:00〜22:00<br>（最終入館 21:45）</p>
+            </div>
+          </div>
+          <div class="access-item">
+            <span class="access-icon">📅</span>
+            <div>
+              <p class="access-label">オープン日</p>
+              <p>2026年8月7日（金）</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- お問い合わせ -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-label">CONTACT</p>
+        <h2 class="section-title">お問い合わせ</h2>
+      </div>
+      <div class="contact-grid">
+        <a href="mailto:bnyl@dear-logue.com" class="contact-card">
+          <div class="contact-icon">✉️</div>
+          <p class="contact-label">メール</p>
+          <p class="contact-value">bnyl@dear-logue.com</p>
+        </a>
+        <a href="https://www.instagram.com/bnyl_dearlogue" target="_blank" rel="noopener" class="contact-card">
+          <div class="contact-icon">📸</div>
+          <p class="contact-label">Instagram</p>
+          <p class="contact-value">@bnyl_dearlogue</p>
+        </a>
+        <a href="https://x.com/bnyl_dearlogue?s=11&t=RPFBq4vlZwrlGt-5kj8A0Q" target="_blank" rel="noopener" class="contact-card">
+          <div class="contact-icon">𝕏</div>
+          <p class="contact-label">X（旧Twitter）</p>
+          <p class="contact-value">@bnyl_dearlogue</p>
+        </a>
+        <a href="https://lin.ee/Q4vZZQz" target="_blank" rel="noopener" class="contact-card">
+          <div class="contact-icon">💬</div>
+          <p class="contact-label">LINE</p>
+          <p class="contact-value">LINE公式アカウント</p>
+        </a>
+      </div>
+      <p class="contact-org">運営：株式会社ディアローグ</p>
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="images/logo.png" alt="BNYL" class="footer-logo-img">
+          <p>Bunkyo Night Youth Lounge</p>
+        </div>
+        <nav class="footer-nav">
+          <a href="#concept">コンセプト</a>
+          <a href="#space">スペース</a>
+          <a href="#calendar">開館日</a>
+          <a href="#events">イベント</a>
+          <a href="#staff">専門職</a>
+          <a href="#reserve">予約</a>
+          <a href="#access">アクセス</a>
+          <a href="#contact">お問い合わせ</a>
+        </nav>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/bnyl_dearlogue" target="_blank" rel="noopener" aria-label="Instagram">📸 Instagram</a>
+          <a href="https://x.com/bnyl_dearlogue?s=11&t=RPFBq4vlZwrlGt-5kj8A0Q" target="_blank" rel="noopener" aria-label="X">𝕏 X</a>
+          <a href="https://lin.ee/Q4vZZQz" target="_blank" rel="noopener" aria-label="LINE">💬 LINE</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 株式会社ディアローグ All Rights Reserved.</p>
+        <p class="footer-address">東京都文京区千駄木2-42-2「千駄木 露地」</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 予約完了モーダル -->
+  <div class="modal-overlay" id="completeModal" style="display:none" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-icon" id="modalIcon">✓</div>
+      <h3 class="modal-title" id="modalTitle">予約を受け付けました</h3>
+      <div class="modal-receipt" id="modalReceipt" style="display:none">
+        <span class="modal-receipt-label">受付番号</span>
+        <span class="modal-receipt-no" id="modalReceiptNo"></span>
+      </div>
+      <dl class="modal-detail" id="modalDetail"></dl>
+      <p class="modal-msg" id="modalMsg">ご登録のメールアドレスに確認メールをお送りしました。</p>
+      <button type="button" class="btn btn-primary btn-full" id="modalOkBtn">閉じる</button>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

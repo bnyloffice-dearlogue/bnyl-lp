@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>チェックイン - BNYL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Noto Sans JP',sans-serif;background:#111;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .card{background:#fff;border-radius:14px;padding:32px 24px;max-width:440px;width:100%;text-align:center;box-shadow:0 4px 32px rgba(0,0,0,0.4)}
+    .logo{height:34px;margin-bottom:8px;object-fit:contain}
+    .brand{font-size:0.78rem;color:#999;letter-spacing:0.1em;margin-bottom:18px}
+    .admin-badge{background:#111;color:#fff;font-size:0.7rem;padding:4px 12px;border-radius:4px;margin-bottom:16px;display:inline-block}
+    .spinner{width:36px;height:36px;border:3px solid #eee;border-top-color:#c0526a;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .icon{font-size:3.2rem;margin-bottom:14px}
+    .icon-ok{color:#4caf7d}
+    h2{font-size:1.2rem;margin-bottom:16px;color:#111;line-height:1.5}
+    p{color:#666;font-size:0.9rem;line-height:1.8}
+    .detail{text-align:left;background:#f8f8f8;border-radius:8px;padding:16px 18px;margin:16px 0;font-size:0.9rem}
+    .detail dt{font-weight:700;color:#999;font-size:0.72rem;margin-bottom:2px}
+    .detail dd{color:#111;margin-bottom:12px;line-height:1.5}
+    .detail dd:last-child{margin-bottom:0}
+    .status-tag{display:inline-block;padding:3px 12px;border-radius:20px;font-size:0.8rem;font-weight:700}
+    .status-reserved{background:#fde8ee;color:#c0526a}
+    .status-attended{background:#e2efda;color:#4caf7d}
+    .btn{display:block;width:100%;min-height:54px;margin-top:18px;padding:15px 24px;border-radius:10px;text-decoration:none;font-size:1rem;font-weight:700;border:none;cursor:pointer;font-family:inherit;line-height:1.4}
+    .btn-checkin{background:#111;color:#fff}
+    .btn-checkin:hover{background:#333}
+    .btn-checkin:disabled{background:#ccc;color:#888;cursor:not-allowed}
+    .btn-home{background:#c0526a;color:#fff}
+    .btn-home:hover{background:#a84460}
+    .done-note{font-size:0.8rem;color:#999;margin-top:6px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="images/logo.png" alt="BNYL" class="logo" onerror="this.style.display='none'">
+    <p class="brand">Bunkyo Night Youth Lounge</p>
+    <span class="admin-badge">🔒 運営スタッフ専用</span>
+
+    <!-- 読み込み中 -->
+    <div id="loading">
+      <div class="spinner"></div>
+      <p>予約内容を読み込み中...</p>
+    </div>
+
+    <!-- ステップ1：予約内容確認 -->
+    <div id="confirm" style="display:none">
+      <h2>チェックイン確認画面</h2>
+      <dl class="detail" id="confirmDetail"></dl>
+      <button class="btn btn-checkin" id="doCheckinBtn">チェックインする</button>
+    </div>
+
+    <!-- 処理中 -->
+    <div id="processing" style="display:none">
+      <div class="spinner"></div>
+      <p>処理中...</p>
+    </div>
+
+    <!-- ステップ2：完了 -->
+    <div id="result" style="display:none">
+      <div class="icon icon-ok">✓</div>
+      <h2>チェックイン完了</h2>
+      <dl class="detail" id="resultDetail"></dl>
+      <p class="done-note">「OK」を押すとトップページに移動します。</p>
+      <button class="btn btn-home" id="okBtn">OK</button>
+    </div>
+
+    <!-- エラー -->
+    <div id="error-init" style="display:none">
+      <div class="icon">⚠️</div>
+      <h2 id="initErrTitle"></h2>
+      <p id="initErrMsg"></p>
+    </div>
+  </div>
+
+  <script src="js/main.js" defer></script>
+  <script>
+    let RID = '', ATOKEN = '', ENDPOINT = '', LASTDATA = {};
+
+    window.addEventListener('load', () => {
+      const params = new URLSearchParams(location.search);
+      RID    = params.get('id');
+      ATOKEN = params.get('adminToken');
+      ENDPOINT = (typeof GAS_ENDPOINT !== 'undefined') ? GAS_ENDPOINT : '';
+
+      if (!RID || !ATOKEN) { showInitError('リンクが無効', 'URLのパラメータが不足しています。'); return; }
+      if (!ENDPOINT || ENDPOINT === 'YOUR_GAS_ENDPOINT_URL') { showInitError('システムエラー', 'GAS設定が不完全です。'); return; }
+
+      // ステップ1：予約内容を取得
+      fetch(`${ENDPOINT}?action=getReservationById&id=${encodeURIComponent(RID)}&adminToken=${encodeURIComponent(ATOKEN)}`)
+        .then(async res => { const t = await res.text(); try { return JSON.parse(t); } catch { return { status:'error' }; } })
+        .then(data => {
+          hide('loading');
+          if (data.status !== 'ok') { showInitError('エラー', data.message || '予約が見つかりませんでした。'); return; }
+          LASTDATA = data;
+          const attended = data.reservedStatus === '出席済';
+          const tag = attended
+            ? '<span class="status-tag status-attended">出席済</span>'
+            : '<span class="status-tag status-reserved">予約済</span>';
+          document.getElementById('confirmDetail').innerHTML =
+            `<dt>受付番号</dt><dd>${data.receiptNo || '-'}</dd>` +
+            `<dt>予約内容</dt><dd>${data.typeLabel || '-'}</dd>` +
+            `<dt>イベント名・日程・時間帯</dt><dd>${data.scheduleLabel || '-'}</dd>` +
+            `<dt>お名前（会員番号）</dt><dd>${data.memberNo || '-'}</dd>` +
+            `<dt>現在のステータス</dt><dd>${tag}</dd>`;
+          show('confirm');
+
+          const btn = document.getElementById('doCheckinBtn');
+          if (attended) {
+            btn.disabled = true;
+            btn.textContent = 'チェックイン済みです';
+          }
+        })
+        .catch(() => { hide('loading'); showInitError('通信エラー', '読み込みに失敗しました。再度お試しください。'); });
+
+      // ステップ2：チェックイン実行
+      document.getElementById('doCheckinBtn').addEventListener('click', () => {
+        hide('confirm'); show('processing');
+        fetch(`${ENDPOINT}?action=checkin&id=${encodeURIComponent(RID)}&adminToken=${encodeURIComponent(ATOKEN)}`)
+          .then(async res => { const t = await res.text(); try { return JSON.parse(t); } catch { return { status: res.ok ? 'ok' : 'error' }; } })
+          .then(data => {
+            hide('processing');
+            if (data.status === 'ok') {
+              document.getElementById('resultDetail').innerHTML =
+                `<dt>受付番号</dt><dd>${LASTDATA.receiptNo || RID}</dd>` +
+                `<dt>お名前（会員番号）</dt><dd>${LASTDATA.memberNo || '-'}</dd>` +
+                `<dt>イベント名・日程</dt><dd>${LASTDATA.scheduleLabel || '-'}</dd>`;
+              show('result');
+            } else {
+              showInitError('エラー', data.message || '予約が見つからないか、すでに処理済みです。');
+            }
+          })
+          .catch(() => { hide('processing'); showInitError('通信エラー', '処理に失敗しました。再度お試しください。'); });
+      });
+
+      // OK → トップページのヒーローへ
+      document.getElementById('okBtn').addEventListener('click', () => { location.href = '/index.html#hero'; });
+    });
+
+    function show(id){ document.getElementById(id).style.display = 'block'; }
+    function hide(id){ document.getElementById(id).style.display = 'none'; }
+    function showInitError(title, msg) {
+      ['loading','confirm','processing','result'].forEach(hide);
+      document.getElementById('initErrTitle').textContent = title;
+      document.getElementById('initErrMsg').textContent = msg;
+      show('error-init');
+    }
+  </script>
+</body>
+</html>
