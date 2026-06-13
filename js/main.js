@@ -306,10 +306,14 @@ function buildEventCard(ev) {
       </svg>
     </div>
     <div class="event-body">
-      ${(ev.description || ev.desc || ev.remark) ? `<p class="event-desc">${ev.description || ev.desc || ev.remark}</p>` : ''}
+      ${(ev.description || ev.desc || ev.remark) ? `<p class="event-desc"></p>` : ''}
       ${slotHtml}
       ${btnHtml}
     </div>`;
+
+  // 説明文をXSS安全に設定（textContentでHTMLタグを無害化）
+  const descEl = item.querySelector('.event-desc');
+  if (descEl) descEl.textContent = ev.description || ev.desc || ev.remark || '';
 
   // アコーディオン
   item.querySelector('.event-header').addEventListener('click', () => {

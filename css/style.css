@@ -503,7 +503,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-size: 0.68rem; padding: 2px 7px; border-radius: 4px;
   font-weight: 600; flex-shrink: 0;
 }
-.event-desc { font-size: 0.85rem; color: var(--gray-600); margin-bottom: 16px; line-height: 1.8; }
+.event-desc { font-size: 0.85rem; color: var(--gray-600); margin-bottom: 16px; line-height: 1.8; white-space: pre-line; }
 .event-reserve-btn {
   display: inline-flex; align-items: center; gap: 6px;
   background: var(--pink-dark); color: var(--white);
