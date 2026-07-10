@@ -7,6 +7,36 @@
 const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwQzGptCaBNA4DZB4P49rL_lyP47Y43j57WkcoEC1jmB356dm_yBuvAhdSxFdtoUtuX/exec';
 
 /* ==========================================
+   予約フォームモーダル
+   ========================================== */
+const reserveModalOverlay = document.getElementById('reserveModalOverlay');
+
+function openReserveModal() {
+  reserveModalOverlay.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeReserveModal() {
+  reserveModalOverlay.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+document.getElementById('reserveModalClose').addEventListener('click', closeReserveModal);
+reserveModalOverlay.addEventListener('click', e => {
+  if (e.target === reserveModalOverlay) closeReserveModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && reserveModalOverlay.style.display === 'flex') closeReserveModal();
+});
+
+const footerReserveLink = document.getElementById('footerReserveLink');
+if (footerReserveLink) {
+  footerReserveLink.addEventListener('click', e => {
+    e.preventDefault();
+    openReserveModal();
+  });
+}
+
+/* ==========================================
    ナビゲーション
    ========================================== */
 (function initNav() {
@@ -103,7 +133,7 @@ const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwQzGptCaBNA4DZB4P
         el.setAttribute('role', 'button');
         el.setAttribute('tabindex', '0');
         el.addEventListener('click', () => {
-          document.getElementById('reserve').scrollIntoView({ behavior: 'smooth' });
+          openReserveModal();
         });
 
         // 専門職の在中表示（データがある日のみ）
@@ -722,7 +752,7 @@ waitlistBtn.addEventListener('click', () => {
 });
 
 function prefillForm({ type, scheduleId, scheduleLabel }) {
-  document.getElementById('reserve').scrollIntoView({ behavior: 'smooth' });
+  openReserveModal();
   setTimeout(() => {
     // ① まずフォームを完全リセット（前に選択した種別の表示を消す）
     resetFormGroups();
@@ -759,7 +789,7 @@ if (lockedScheduleClear) {
 document.querySelectorAll('.btn-staff').forEach(btn => {
   btn.addEventListener('click', () => {
     const type = btn.dataset.type;
-    document.getElementById('reserve').scrollIntoView({ behavior: 'smooth' });
+    openReserveModal();
     setTimeout(() => {
       const ftypeEl = document.getElementById('ftype');
       ftypeEl.value = type;

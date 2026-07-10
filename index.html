@@ -28,7 +28,6 @@
         <li><a href="#calendar">開館日</a></li>
         <li><a href="#events">イベント</a></li>
         <li><a href="#staff">専門職</a></li>
-        <li><a href="#reserve" class="nav-cta">予約する</a></li>
       </ul>
     </div>
   </nav>
@@ -62,7 +61,7 @@
       <div class="section-header">
         <p class="section-label">CONCEPT</p>
         <h2 class="section-title">あなたらしく過ごせる場所</h2>
-        <p class="section-desc">BNYLは、文京区が運営支援する若者向けの夜間フリースペースです。<br>何かをしなくていい。ただ、いてもいい。</p>
+        <p class="section-desc">BNYLは、文京区が運営する若者向けの夜間フリースペースです。</p>
       </div>
       <div class="scene-grid">
         <div class="scene-card">
@@ -71,7 +70,7 @@
           </div>
           <div class="scene-body">
             <h3 class="scene-title"><i class="ti ti-book scene-icon"></i>読書・勉強</h3>
-            <p class="scene-desc">窓の外の夜景を眺めながら、静かに本を読んだり勉強したり。集中できる席があります。</p>
+            <p class="scene-desc">静かに本を読んだり勉強したり。集中できる席があります。</p>
           </div>
         </div>
         <div class="scene-card">
@@ -80,7 +79,7 @@
           </div>
           <div class="scene-body">
             <h3 class="scene-title"><i class="ti ti-device-laptop scene-icon"></i>仕事・作業</h3>
-            <p class="scene-desc">仕事帰りにそのまま寄って、続きをやっていく。Wi-Fi・電源完備。</p>
+            <p class="scene-desc">仕事帰りにそのまま寄って、続きをすることもできます。Wi-Fi・電源完備。</p>
           </div>
         </div>
         <div class="scene-card">
@@ -110,8 +109,8 @@
     <div class="container">
       <div class="section-header">
         <p class="section-label">SPACE</p>
-        <h2 class="section-title">千駄木 露地のフロア</h2>
-        <p class="section-desc">文京区千駄木2-42-2「千駄木 露地」内にある3つのフロアを開放します。</p>
+        <h2 class="section-title">ナイトラウンジのフロア</h2>
+        <p class="section-desc">利用できる3つのフロアを紹介します。</p>
       </div>
       <div class="space-grid">
         <div class="space-card">
@@ -120,8 +119,8 @@
           </div>
           <div class="space-body">
             <span class="space-badge">フロア①</span>
-            <h3>ラウンジスペース</h3>
-            <p>ソファや椅子でゆったり過ごせるオープンエリア。会話もOK、ひとり時間もOK。</p>
+            <h3>ワーク・スタディエリア</h3>
+            <p>デスクと椅子を配置した集中エリア。Wi-Fi・電源完備で作業に最適。</p>
           </div>
         </div>
         <div class="space-card">
@@ -130,8 +129,8 @@
           </div>
           <div class="space-body">
             <span class="space-badge">フロア②</span>
-            <h3>ワーク・スタディエリア</h3>
-            <p>デスクと椅子を配置した集中エリア。Wi-Fi・電源完備で作業に最適。</p>
+            <h3>ラウンジスペース</h3>
+            <p>ソファや椅子でゆったり過ごせるオープンエリア。会話もOK、ひとり時間もOK。</p>
           </div>
         </div>
         <div class="space-card">
@@ -224,7 +223,6 @@
             <h3>仕事・働き方の相談</h3>
             <p>仕事のこと、将来のこと、ひとりで抱えていませんか？転職・就活・副業・働き方など、どんな小さな悩みでも一緒に整理します。話すだけでも、すっきりすることがありますよ。（予約制・30分）</p>
             <ul class="staff-list">
-              <li>キャリア支援講座（月1〜2回）</li>
               <li>キャリア個別相談（毎週金曜・予約制）</li>
             </ul>
             <button type="button" class="btn btn-staff" data-type="career_consult">キャリア相談を予約する</button>
@@ -237,7 +235,6 @@
             <h3>こころ・生活の相談</h3>
             <p>なんとなくしんどい、誰かに話を聞いてほしい。そんなときに気軽に声をかけてください。生活のこと、人間関係のこと、答えを出さなくてもいいので、まずは話しましょう。（予約制・30分）</p>
             <ul class="staff-list">
-              <li>メンタルヘルス支援講座（月1〜2回）</li>
               <li>メンタルヘルス個別相談（毎週金曜・予約制）</li>
             </ul>
             <button type="button" class="btn btn-staff btn-staff-green" data-type="mental_consult">メンタルヘルス相談を予約する</button>
@@ -249,12 +246,13 @@
   </section>
 
   <!-- 予約フォーム -->
-  <section class="section" id="reserve">
-    <div class="container">
+  <div class="modal-overlay" id="reserveModalOverlay" style="display:none" role="dialog" aria-modal="true" aria-labelledby="reserveModalTitle">
+    <div class="modal-card reserve-modal-card">
+      <button type="button" class="reserve-modal-close" id="reserveModalClose" aria-label="閉じる">×</button>
       <div class="section-header">
         <p class="section-label">RESERVE</p>
-        <h2 class="section-title">予約フォーム</h2>
-        <p class="section-desc">参加は無料です。メールアドレスは確認メール送付にのみ使用します。</p>
+        <h2 class="section-title" id="reserveModalTitle">予約フォーム</h2>
+        <p class="section-desc">利用は無料です。メールアドレスは確認メール送付にのみ使用します。</p>
       </div>
       <div class="form-wrap">
         <form id="reserveForm" novalidate>
@@ -269,7 +267,7 @@
             <label class="form-label" for="fmember">
               会員番号 <span class="form-required">必須</span>
             </label>
-            <input type="text" id="fmember" name="memberNo" class="form-input" placeholder="例：BN-0001" required>
+            <input type="text" id="fmember" name="memberNo" class="form-input" placeholder="例：0001" required>
             <p class="form-error" id="memberError"></p>
           </div>
 
@@ -380,7 +378,7 @@
         </form>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- アクセス -->
   <section class="section section-dark" id="access">
@@ -479,7 +477,7 @@
           <a href="#calendar">開館日</a>
           <a href="#events">イベント</a>
           <a href="#staff">専門職</a>
-          <a href="#reserve">予約</a>
+          <a href="#" id="footerReserveLink">予約</a>
           <a href="#access">アクセス</a>
           <a href="#contact">お問い合わせ</a>
         </nav>
