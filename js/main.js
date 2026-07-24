@@ -572,6 +572,7 @@ const consultDateGroup = document.getElementById('consultDateGroup');
 const consultTimeGroup = document.getElementById('consultTimeGroup');
 const consultDateSel   = document.getElementById('fconsultDate');
 const consultTimeSel   = document.getElementById('fconsultTime');
+const submitGroupEl    = document.getElementById('submitGroup');
 
 // 日程ロック表示（イベントカードから予約した場合に使用）
 const lockedScheduleGroup = document.getElementById('lockedScheduleGroup');
@@ -638,6 +639,8 @@ function resetFormGroups() {
   consultDateSel.innerHTML = '<option value="">選択してください</option>';
   consultDateSel.value     = '';
   consultTimeSel.value     = '';
+  document.getElementById('consultOnsiteNotice').style.display = 'none';
+  submitGroupEl.style.display = '';
 }
 
 ftypeEl.addEventListener('change', () => {
@@ -703,6 +706,8 @@ consultDateSel.addEventListener('change', () => {
   const onsiteNotice = document.getElementById('consultOnsiteNotice');
   const isOnsite = consultDateSel.selectedOptions[0]?.dataset.onsite === '1';
   onsiteNotice.style.display = isOnsite ? 'block' : 'none';
+  // △（当日来館受付のみ）はWeb予約不可 → 送信ボタンを隠す
+  submitGroupEl.style.display = isOnsite ? 'none' : '';
 
   if (!dateKey || isOnsite) {
     consultTimeGroup.style.display = 'none';
