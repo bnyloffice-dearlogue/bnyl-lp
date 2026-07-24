@@ -36,6 +36,28 @@ if (footerReserveLink) {
   });
 }
 
+const navReserveLink = document.getElementById('navReserveLink');
+if (navReserveLink) {
+  navReserveLink.addEventListener('click', e => {
+    e.preventDefault();
+    openReserveModal();
+  });
+}
+
+/* メールアドレスをコピー（mailto遷移は妨げない） */
+const mailContactCard = document.getElementById('mailContactCard');
+if (mailContactCard && navigator.clipboard) {
+  mailContactCard.addEventListener('click', () => {
+    const email = mailContactCard.href.replace('mailto:', '');
+    navigator.clipboard.writeText(email).then(() => {
+      const toast = document.getElementById('mailCopyToast');
+      toast.classList.add('show');
+      clearTimeout(toast._hideTimer);
+      toast._hideTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+    }).catch(() => {});
+  });
+}
+
 /* ==========================================
    ナビゲーション
    ========================================== */
@@ -70,11 +92,14 @@ if (footerReserveLink) {
    開館カレンダー
    ========================================== */
 (function initCalendar() {
-  const OPEN_DATE = new Date(2026, 7, 7); // 2026-08-07 オープン
+  const OPEN_DATE = new Date(2026, 7, 7);  // 2026-08-07 オープン
+  const END_DATE  = new Date(2027, 3, 1);  // 2027-04-01 事業終了（これ以降は開館・予約なし）
   let current = new Date();
   current = new Date(current.getFullYear(), current.getMonth(), 1);
   // オープン前は2026年8月から表示
   if (current < new Date(2026, 7, 1)) current = new Date(2026, 7, 1);
+  // 事業終了後は最終月（2027年3月）を表示
+  if (current >= END_DATE) current = new Date(2027, 2, 1);
 
   const grid  = document.getElementById('calendarGrid');
   const label = document.getElementById('calMonthLabel');
@@ -84,7 +109,7 @@ if (footerReserveLink) {
 
   function isOpenDay(date) {
     const isNewYear = date.getMonth() === 0 && date.getDate() === 1;
-    return date.getDay() === 5 && date >= OPEN_DATE && !isNewYear;
+    return date.getDay() === 5 && date >= OPEN_DATE && date < END_DATE && !isNewYear;
   }
 
   // 専門職名 → 表示ラベル（該当なしは空文字）
@@ -156,8 +181,9 @@ if (footerReserveLink) {
     if (prev >= min) { current = prev; render(); }
   });
   document.getElementById('calNext').addEventListener('click', () => {
-    current = new Date(current.getFullYear(), current.getMonth() + 1, 1);
-    render();
+    const max  = new Date(2027, 2, 1); // 2027年3月まで（事業最終月）
+    const next = new Date(current.getFullYear(), current.getMonth() + 1, 1);
+    if (next <= max) { current = next; render(); }
   });
 
   render();
@@ -638,8 +664,17 @@ ftypeEl.addEventListener('change', () => {
       dates.forEach(d => {
         const opt = document.createElement('option');
         opt.value = d.dateKey;
-        opt.textContent = d.dateLabel;
-        if (!d.available) { opt.disabled = true; opt.textContent += '（受付外）'; }
+        // 新GAS: status（available/onsite/unavailable）／旧GAS: available（true/false）に後方互換
+        const status = d.status || (d.available === false ? 'unavailable' : 'available');
+        if (status === 'onsite') {
+          opt.textContent = `${d.dateLabel}（当日来館受付のみ）`;
+          opt.dataset.onsite = '1';
+        } else if (status === 'unavailable') {
+          opt.textContent = `${d.dateLabel}（受付外）`;
+          opt.disabled = true;
+        } else {
+          opt.textContent = d.dateLabel;
+        }
         consultDateSel.appendChild(opt);
       });
     }).catch(() => {
@@ -665,8 +700,14 @@ consultDateSel.addEventListener('change', () => {
   const type    = ftypeEl.value;
   consultTimeSel.value = '';
 
-  if (!dateKey) {
+  const onsiteNotice = document.getElementById('consultOnsiteNotice');
+  const isOnsite = consultDateSel.selectedOptions[0]?.dataset.onsite === '1';
+  onsiteNotice.style.display = isOnsite ? 'block' : 'none';
+
+  if (!dateKey || isOnsite) {
     consultTimeGroup.style.display = 'none';
+    fullBanner.style.display  = 'none';
+    waitlistSec.style.display = 'none';
     return;
   }
 
@@ -831,12 +872,16 @@ function validate() {
   const isConsultWaitlist = isConsultType(type.value) && waitlistSec.style.display !== 'none';
 
   if (isConsultType(type.value)) {
+    const isOnsiteDate = consultDateSel.selectedOptions[0]?.dataset.onsite === '1';
     if (!consultDateSel.value) {
       document.getElementById('consultDateError').textContent = '希望日程を選択してください';
       consultDateSel.classList.add('invalid'); ok = false;
+    } else if (isOnsiteDate) {
+      document.getElementById('consultDateError').textContent = 'この日程はWeb予約できません。別の日程をお選びください';
+      consultDateSel.classList.add('invalid'); ok = false;
     }
     // キャンセル待ち（全枠満席）の場合は時間帯選択を求めない
-    if (!isConsultWaitlist && consultDateSel.value && !consultTimeSel.value) {
+    if (!isConsultWaitlist && !isOnsiteDate && consultDateSel.value && !consultTimeSel.value) {
       document.getElementById('consultTimeError').textContent = '希望時間帯を選択してください';
       consultTimeSel.classList.add('invalid'); ok = false;
     }

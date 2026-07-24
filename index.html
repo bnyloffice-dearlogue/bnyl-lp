@@ -28,6 +28,9 @@
         <li><a href="#calendar">開館日</a></li>
         <li><a href="#events">イベント</a></li>
         <li><a href="#staff">専門職</a></li>
+        <li><a href="#" id="navReserveLink">予約</a></li>
+        <li><a href="#access">アクセス</a></li>
+        <li><a href="#contact">お問い合わせ</a></li>
       </ul>
     </div>
   </nav>
@@ -79,7 +82,7 @@
           </div>
           <div class="scene-body">
             <h3 class="scene-title"><i class="ti ti-device-laptop scene-icon"></i>仕事・作業</h3>
-            <p class="scene-desc">仕事帰りにそのまま寄って、続きをすることもできます。Wi-Fi・電源完備。</p>
+            <p class="scene-desc">仕事帰りにそのまま寄って、仕事の続きをすることもできます。Wi-Fi完備、電源は一部の席で利用可能です。</p>
           </div>
         </div>
         <div class="scene-card">
@@ -143,6 +146,21 @@
             <p>2階にある個別相談スペースは、専門職（キャリアコンサルタント・社会福祉士）との相談が利用可能です。</p>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 利用ルール -->
+  <section class="rules-band" id="rules">
+    <div class="container">
+      <div class="rules-card">
+        <div class="rules-text">
+          <h3>ご利用にあたって</h3>
+          <p>はじめてご利用の方は、利用ルールを必ずご確認ください。<br>ご来館の際には、現住所と年齢が確認できる<strong class="rules-emphasis">身分証明書</strong>をご持参ください。</p>
+        </div>
+        <a href="bnyl-rules.pdf" target="_blank" rel="noopener" class="rules-btn">
+          利用ルールを見る（PDF）
+        </a>
       </div>
     </div>
   </section>
@@ -221,10 +239,8 @@
           <div class="staff-body">
             <span class="staff-badge">キャリアコンサルタント</span>
             <h3>仕事・働き方の相談</h3>
-            <p>仕事のこと、将来のこと、ひとりで抱えていませんか？転職・就活・副業・働き方など、どんな小さな悩みでも一緒に整理します。話すだけでも、すっきりすることがありますよ。（予約制・30分）</p>
-            <ul class="staff-list">
-              <li>キャリア個別相談（毎週金曜・予約制）</li>
-            </ul>
+            <p>仕事のこと、将来のこと、ひとりで抱えていませんか？転職・就活・副業・働き方など、どんな小さな悩みでも一緒に整理します。話すだけでも、すっきりすることがあります。</p>
+            <p class="staff-card-note">※個別相談は30分枠。専門職が出勤する日のみ実施し、予約優先、空きがあれば当日相談も可能です。</p>
             <button type="button" class="btn btn-staff" data-type="career_consult">キャリア相談を予約する</button>
           </div>
         </div>
@@ -233,15 +249,13 @@
           <div class="staff-body">
             <span class="staff-badge staff-badge-green">社会福祉士</span>
             <h3>こころ・生活の相談</h3>
-            <p>なんとなくしんどい、誰かに話を聞いてほしい。そんなときに気軽に声をかけてください。生活のこと、人間関係のこと、答えを出さなくてもいいので、まずは話しましょう。（予約制・30分）</p>
-            <ul class="staff-list">
-              <li>メンタルヘルス個別相談（毎週金曜・予約制）</li>
-            </ul>
+            <p>なんとなくしんどい、誰かに話を聞いてほしい。そんなときに気軽に声をかけてください。生活のこと、人間関係のこと、答えを出さなくても構いません。まずは、気軽に話してみるところから始めてみませんか。</p>
+            <p class="staff-card-note">※個別相談は30分枠。専門職が出勤する日のみ実施し、予約優先、空きがあれば当日相談も可能です。</p>
             <button type="button" class="btn btn-staff btn-staff-green" data-type="mental_consult">メンタルヘルス相談を予約する</button>
           </div>
         </div>
       </div>
-      <p class="staff-note">※個別相談は30分枠。各専門職1名体制。18:00〜21:00の5枠から選択。</p>
+      <p class="staff-note">※各専門職1名体制。相談は18:00〜21:00の5枠から選択できます。</p>
     </div>
   </section>
 
@@ -324,6 +338,9 @@
               <option value="">選択してください</option>
             </select>
             <p class="form-error" id="consultDateError"></p>
+            <p class="consult-onsite-notice" id="consultOnsiteNotice" style="display:none">
+              この日程はWeb予約を受け付けておりません。当日直接ご来館いただければ、専門職の空き状況によりご相談いただけます。
+            </p>
           </div>
 
           <!-- 相談：希望時間帯（2段階②） -->
@@ -438,12 +455,13 @@
         <h2 class="section-title">お問い合わせ</h2>
       </div>
       <div class="contact-grid">
-        <a href="mailto:bnyl@dear-logue.com" class="contact-card">
+        <a href="mailto:bnyl@dear-logue.com" class="contact-card" id="mailContactCard">
           <div class="contact-icon">✉️</div>
           <p class="contact-label">メール</p>
           <p class="contact-value">bnyl@dear-logue.com</p>
+          <span class="copy-toast" id="mailCopyToast">コピーしました</span>
         </a>
-        <a href="https://www.instagram.com/bnyl_dearlogue" target="_blank" rel="noopener" class="contact-card">
+        <a href="https://www.instagram.com/bnyl_official/" target="_blank" rel="noopener" class="contact-card">
           <div class="contact-icon">📸</div>
           <p class="contact-label">Instagram</p>
           <p class="contact-value">@bnyl_dearlogue</p>
@@ -481,11 +499,6 @@
           <a href="#access">アクセス</a>
           <a href="#contact">お問い合わせ</a>
         </nav>
-        <div class="footer-social">
-          <a href="https://www.instagram.com/bnyl_dearlogue" target="_blank" rel="noopener" aria-label="Instagram">📸 Instagram</a>
-          <a href="https://x.com/bnyl_dearlogue?s=11&t=RPFBq4vlZwrlGt-5kj8A0Q" target="_blank" rel="noopener" aria-label="X">𝕏 X</a>
-          <a href="https://lin.ee/Q4vZZQz" target="_blank" rel="noopener" aria-label="LINE">💬 LINE</a>
-        </div>
       </div>
       <div class="footer-bottom">
         <p>© 2026 株式会社ディアローグ All Rights Reserved.</p>
